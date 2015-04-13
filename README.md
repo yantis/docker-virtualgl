@@ -3,15 +3,17 @@ This is [VirtualGL](http://virtualgl.org) running on docker.
 It includes all 32 bit & 64 bit libraries.
 
 It should work out of the box with all Nvidia cards and Nvidia drivers and most other cards as well that use Mesa drivers.
+It is setup to auto adapt to whatever drivers you may have installed as long as they are the most recent ones for your branch.
 
 On Docker hub [virtualgl](https://registry.hub.docker.com/u/yantis/virtualgl/)
 on Github [docker-dynamic-nvidia](https://github.com/yantis/docker-virtualgl/)
+
 
 # Description
 The goal of this was a layer between [dynamic-video](https://github.com/yantis/docker-dynamic-video) and graphical applications.
 I tested this with Blender, Path of Exile on PlayOnLinux and a few other games and even Steam all on an Amazon EC2.
 
-I have included a [demo script](LINK HERE) that will startup an Amazon EC2 Instance, install docker, run the container and 
+I have included a [demo script](https://github.com/yantis/docker-virtualgl/blob/master/tools/aws-virtualgl.sh) that will startup an Amazon EC2 Instance, install docker, run the container and 
 then connect to your docker container and run glxspheres64 doing all the rendering on the AWS GPU and outputing it on your local display.
 
 
@@ -36,11 +38,11 @@ This follows these docker conventions:
 * `--privileged` run in privileged mode 
     If you do not want to run in privliged mode you can mess around with these:
     AWS
-     --device=/dev/nvidia0:/dev/nvidia0 \
-     --device=/dev/nvidiactl:/dev/nvidiactl \
-     --device=/dev/nvidia-uvm:/dev/nvidia-uvm \
+     ** --device=/dev/nvidia0:/dev/nvidia0 \
+     ** --device=/dev/nvidiactl:/dev/nvidiactl \
+     ** --device=/dev/nvidia-uvm:/dev/nvidia-uvm \
     OR (Local)
-    --device=/dev/dri/card0:/dev/dri/card0 \
+     ** --device=/dev/dri/card0:/dev/dri/card0 \
 * `-d` run in daemon mode
 * `-h docker` sets the hostname to docker. (not really required but it is nice to see where you are.)
 * `-v $HOME/.ssh/authorized_keys:/authorized_keys:ro` Optionaly share your public keys with the host.
@@ -49,7 +51,7 @@ This follows these docker conventions:
     (If you do specify authorized keys it will disable all password logins to keep it secure).
 
 * `-p 49158:22` port that you will be connecting to.
-* `yantis/virtualgl` the default mode is SSH server with X-Server so no need to run any commands.
+* `yantis/virtualgl` the default mode is SSH server with the X-Server so no need to run any commands.
 
 
 # Usage (Client)

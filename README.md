@@ -22,7 +22,7 @@ for whatever application you are using).
 
 ### Docker Images Structure
 
- ├─[yantis/archlinux-tiny](https://github.com/yantis/docker-archlinux-tiny)\s\s
+ ├─[yantis/archlinux-tiny](https://github.com/yantis/docker-archlinux-tiny)  
    ├─yantis/archlinux-small
       ├─yantis/archlinux-small-ssh-hpn
          ├─yantis/ssh-hpn-x

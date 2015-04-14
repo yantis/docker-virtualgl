@@ -6,7 +6,7 @@ It should work out of the box with all Nvidia cards and Nvidia drivers and most 
 It is setup to auto adapt to whatever drivers you may have installed as long as they are the most recent ones for your branch.
 
 On Docker hub [virtualgl](https://registry.hub.docker.com/u/yantis/virtualgl/)
-on Github [docker-dynamic-nvidia](https://github.com/yantis/docker-virtualgl/)
+on Github [docker-virtualgl](https://github.com/yantis/docker-virtualgl/)
 
 
 ## Description

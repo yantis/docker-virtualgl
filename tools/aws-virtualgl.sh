@@ -18,7 +18,7 @@
 # This uses one of the AMIs from
 # https://www.uplinklabs.net/projects/arch-linux-on-ec2/
 # Usage:
-# aws-virtualgl.sh-
+# aws-virtualgl.sh
 #
 # Example:
 # aws-virtualgl.sh 

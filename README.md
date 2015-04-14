@@ -16,6 +16,18 @@ I tested this with Blender, Path of Exile on PlayOnLinux and a few other games a
 I have included a [demo script](https://github.com/yantis/docker-virtualgl/blob/master/tools/aws-virtualgl.sh) that will startup an Amazon EC2 Instance, install docker, run the container and 
 then connect to your docker container and run glxspheres64 doing all the rendering on the AWS GPU and outputing it on your local display.
 
+[Here](https://github.com/yantis/docker-virtualgl/blob/master/tools/remote-virtualgl.sh) is another demo script 
+that launches a shell for another machine (ie: on your local network. To use that video card instead of your own 
+for whatever application you are using).
+
+# Docker Images Structure
+
+ ├─yantis/archlinux-tiny
+   ├─yantis/archlinux-small
+      ├─yantis/archlinux-small-ssh-hpn
+         ├─yantis/ssh-hpn-x
+            ├─yantis/dynamic-video
+               ├─yantis/virtualgl
 
 # Usage (Server)
 
@@ -86,6 +98,12 @@ If your screen is black or it isn't drawing then that is a good indication that 
 
 vglrun has a lot of tunable parameters. Make sure to check out the manual [here](http://www.virtualgl.org/vgldoc/2_1/)
 
+
+# Examples
+
+This is glxspheres64 running on an Amazon GPU EC2 notice the 750+ frames a second.
+![](http://yantis-scripts.s3.amazonaws.com/screenshot_20150413-074859.jpg)
+
 You should be able to run it with many programs. As an example to use it with [Blender](http://www.blender.org/)
 
 ```bash
@@ -94,7 +112,4 @@ sudo pacman -Sy blender
 vglrun blender -noaudio -nojoystick
 ```
 
-# Screenshots
-
-This is glxspheres64 running on an Amazon GPU EC2 notice the 750+ frames a second.
-![](http://yantis-scripts.s3.amazonaws.com/screenshot_20150413-074859.jpg)
+![](http://yantis-scripts.s3.amazonaws.com/blender_4_13_2015.png)

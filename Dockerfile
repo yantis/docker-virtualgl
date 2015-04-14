@@ -3,12 +3,12 @@
 # Released under the MIT license
 ############################################################
 
-# FROM yantis/archlinux-tiny
-# FROM yantis/archlinux-small
-# FROM yantis/archlinux-small-ssh-hpn
-# FROM yantis/ssh-hpn-x
-# FROM yantis/dynamic-video
-# YOU ARE HERE
+# ├─yantis/archlinux-tiny
+#    ├─yantis/archlinux-small
+#       ├─yantis/archlinux-small-ssh-hpn
+#          ├─yantis/ssh-hpn-x
+#             ├─yantis/dynamic-video
+#                ├─yantis/virtualgl
 
 FROM yantis/dynamic-video
 MAINTAINER Jonathan Yantis <yantis@yantis.net>
@@ -32,9 +32,9 @@ RUN pacman -Syyu --noconfirm && \
     # Force VirtualGL to be preloaded into setuid/setgid executables (do not do if security is an issue)
     chmod u+s /usr/lib/librrfaker.so && chmod u+s /usr/lib64/librrfaker.so && \
 
-    # ##########################################################################
-    # # CLEAN UP SECTION - THIS GOES AT THE END                                #
-    # ##########################################################################
+    ##########################################################################
+    # CLEAN UP SECTION - THIS GOES AT THE END                                #
+    ##########################################################################
     localepurge && \
 
     # Remove man and docs
@@ -48,7 +48,7 @@ RUN pacman -Syyu --noconfirm && \
     paccache -rk0 >/dev/null 2>&1 &&  \
     pacman-optimize && \
     rm -r /var/lib/pacman/sync/*
-    # #########################################################################
+    #########################################################################
 
 CMD /init
 # ADD demos.sh /home/docker/demos.sh

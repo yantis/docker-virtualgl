@@ -23,7 +23,7 @@ for whatever application you are using).
 ### Docker Images Structure
 
 ```
- ├─yantis/archlinux-tiny
+ ├─[yantis/archlinux-tiny](https://github.com/yantis/docker-archlinux-tiny)
    ├─yantis/archlinux-small
       ├─yantis/archlinux-small-ssh-hpn
          ├─yantis/ssh-hpn-x
@@ -59,6 +59,7 @@ This follows these docker conventions:
 
     OR (Local)
      * --device=/dev/dri/card0:/dev/dri/card0 \
+
 * `-d` run in daemon mode
 * `-h docker` sets the hostname to docker. (not really required but it is nice to see where you are.)
 * `-v $HOME/.ssh/authorized_keys:/authorized_keys:ro` Optionaly share your public keys with the host.

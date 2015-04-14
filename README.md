@@ -9,7 +9,7 @@ On Docker hub [virtualgl](https://registry.hub.docker.com/u/yantis/virtualgl/)
 on Github [docker-dynamic-nvidia](https://github.com/yantis/docker-virtualgl/)
 
 
-# Description
+## Description
 The goal of this was a layer between [dynamic-video](https://github.com/yantis/docker-dynamic-video) and graphical applications.
 I tested this with Blender, Path of Exile on PlayOnLinux and a few other games and even Steam all on an Amazon EC2.
 
@@ -20,16 +20,21 @@ then connect to your docker container and run glxspheres64 doing all the renderi
 that launches a shell for another machine (ie: on your local network. To use that video card instead of your own 
 for whatever application you are using).
 
-# Docker Images Structure
+### Docker Images Structure
 
  ├─yantis/archlinux-tiny
+
    ├─yantis/archlinux-small
+
       ├─yantis/archlinux-small-ssh-hpn
+
          ├─yantis/ssh-hpn-x
+
             ├─yantis/dynamic-video
+
                ├─yantis/virtualgl
 
-# Usage (Server)
+## Usage (Server)
 
 The recommended way to run this container looks like this. This example launches the container in the background.
 Warning: Do not run this on your primary computer as it will take over your video cards and you will have to shutdown the container
@@ -66,7 +71,7 @@ This follows these docker conventions:
 * `yantis/virtualgl` the default mode is SSH server with the X-Server so no need to run any commands.
 
 
-# Usage (Client)
+## Usage (Client)
 
 You will probably want to have VirtualGL installed on your client. On Arch Linux it is:
 
@@ -99,7 +104,7 @@ If your screen is black or it isn't drawing then that is a good indication that 
 vglrun has a lot of tunable parameters. Make sure to check out the manual [here](http://www.virtualgl.org/vgldoc/2_1/)
 
 
-# Examples
+## Examples
 
 This is glxspheres64 running on an Amazon GPU EC2 notice the 750+ frames a second.
 ![](http://yantis-scripts.s3.amazonaws.com/screenshot_20150413-074859.jpg)

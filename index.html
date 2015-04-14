@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Docker-virtualgl by yantis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Docker-virtualgl</h1>
+      <h2 class="project-tagline">VirtualGL Server in a Docker Container</h2>
+      <a href="https://github.com/yantis/docker-virtualgl" class="btn">View on GitHub</a>
+      <a href="https://github.com/yantis/docker-virtualgl/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/yantis/docker-virtualgl/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="docker-virtualgl" class="anchor" href="#docker-virtualgl" aria-hidden="true"><span class="octicon octicon-link"></span></a>docker-virtualgl</h1>
+
+<p>This is <a href="http://virtualgl.org">VirtualGL</a> running on docker.
+It includes all 32 bit &amp; 64 bit libraries.</p>
+
+<p>It should work out of the box with all Nvidia cards and Nvidia drivers and most other cards as well that use Mesa drivers.
+It is setup to auto adapt to whatever drivers you may have installed as long as they are the most recent ones for your branch.</p>
+
+<p>On Docker hub <a href="https://registry.hub.docker.com/u/yantis/virtualgl/">virtualgl</a>
+on Github <a href="https://github.com/yantis/docker-virtualgl/">docker-virtualgl</a></p>
+
+<h2>
+<a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>Description</h2>
+
+<p>The goal of this was a layer between <a href="https://github.com/yantis/docker-dynamic-video">dynamic-video</a> and graphical applications.
+I tested this with Blender, Path of Exile on PlayOnLinux and a few other games and even Steam all on an Amazon EC2.</p>
+
+<p>I have included a <a href="https://github.com/yantis/docker-virtualgl/blob/master/tools/aws-virtualgl.sh">demo script</a> that will startup an Amazon EC2 Instance, install docker, run the container and 
+then connect to your docker container and run glxspheres64 doing all the rendering on the AWS GPU and outputing it on your local display.</p>
+
+<p><a href="https://github.com/yantis/docker-virtualgl/blob/master/tools/remote-virtualgl.sh">Here</a> is another demo script 
+that launches a shell for another machine (ie: on your local network. To use that video card instead of your own 
+for whatever application you are using).</p>
+
+<h3>
+<a id="docker-images-structure" class="anchor" href="#docker-images-structure" aria-hidden="true"><span class="octicon octicon-link"></span></a>Docker Images Structure</h3>
+
+<blockquote>
+<p><a href="https://github.com/yantis/docker-archlinux-tiny">yantis/archlinux-tiny</a></p>
+
+<blockquote>
+<p><a href="https://github.com/yantis/docker-archlinux-small">yantis/archlinux-small</a></p>
+
+<blockquote>
+<p><a href="https://github.com/yantis/docker-archlinux-ssh-hpn">yantis/archlinux-small-ssh-hpn</a></p>
+
+<blockquote>
+<p><a href="https://github.com/yantis/docker-ssh-hpn-x">yantis/ssh-hpn-x</a></p>
+
+<blockquote>
+<p><a href="https://github.com/yantis/docker-dynamic-video">yantis/dynamic-video</a></p>
+
+<blockquote>
+<p><a href="https://github.com/yantis/docker-virtualgl">yantis/virtualgl</a></p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+
+<h2>
+<a id="usage-server" class="anchor" href="#usage-server" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage (Server)</h2>
+
+<p>The recommended way to run this container looks like this. This example launches the container in the background.
+Warning: Do not run this on your primary computer as it will take over your video cards and you will have to shutdown the container
+to get them back.</p>
+
+<div class="highlight highlight-bash"><pre>docker run \
+           --privileged \
+           -d \
+           -v /home/user/.ssh/authorized_keys:/authorized_keys:ro \
+           -h docker \
+           -p 49154:22 \
+           yantis/virtualgl</pre></div>
+
+<p>This follows these docker conventions:</p>
+
+<ul>
+<li>
+<p><code>--privileged</code> run in privileged mode 
+If you do not want to run in privliged mode you can mess around with these:</p>
+
+<p>AWS</p>
+
+<ul>
+<li>--device=/dev/nvidia0:/dev/nvidia0 \</li>
+<li>--device=/dev/nvidiactl:/dev/nvidiactl \</li>
+<li>--device=/dev/nvidia-uvm:/dev/nvidia-uvm \</li>
+</ul>
+
+<p>OR (Local)</p>
+
+<ul>
+<li>--device=/dev/dri/card0:/dev/dri/card0 \</li>
+</ul>
+</li>
+<li><p><code>-d</code> run in daemon mode</p></li>
+<li>
+<code>-h docker</code> sets the hostname to docker. (not really required but it is nice to see where you are.)</li>
+<li><p><code>-v $HOME/.ssh/authorized_keys:/authorized_keys:ro</code> Optionaly share your public keys with the host.
+This is particularlly useful when you are running this on another server that already has SSH. Like an 
+Amazon EC2 instance. WARNING: If you don't use this then it will just default to the user pass of docker/docker
+(If you do specify authorized keys it will disable all password logins to keep it secure).</p></li>
+<li><p><code>-p 49158:22</code> port that you will be connecting to.</p></li>
+<li>
+<code>yantis/virtualgl</code> the default mode is SSH server with the X-Server so no need to run any commands.</li>
+</ul>
+
+<h2>
+<a id="usage-client" class="anchor" href="#usage-client" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage (Client)</h2>
+
+<p>You will probably want to have VirtualGL installed on your client. On Arch Linux it is:</p>
+
+<div class="highlight highlight-bash"><pre>pacman -S virtualgl</pre></div>
+
+<p>It is basically two programs you need both of which I have included in the tools directory.</p>
+
+<ul>
+<li>SSH Authentication but data stream is unencrypted (recommended)</li>
+</ul>
+
+<div class="highlight highlight-bash"><pre>vglconnect -Y docker@hostname -p 49154 -t vglrun glxspheres64</pre></div>
+
+<ul>
+<li>SSH Authentication AND data stream is unencrypted</li>
+</ul>
+
+<div class="highlight highlight-bash"><pre>vglconnect -Y -s docker@hostname -p 49154 -t vglrun glxspheres64</pre></div>
+
+<p>If you are running this remotely (ie: with an Amazon AWS server) You will want to open up port on your firewall
+or router to get the best speed out of this.  Otherwise it will use SSH to encrypt the display which will slow it down a good amount.
+(I have had varying degrees of success not opening the port when using the SSH method (Sometimes I have to open up the port period to get it to work.)</p>
+
+<p>Check your ports as it doesn't always use 4242 sometimes it uses something else between 4200 and 4300.
+If your screen is black or it isn't drawing then that is a good indication that the port is blocked.</p>
+
+<p><img src="http://yantis-scripts.s3.amazonaws.com/virtualgl_port_forwarding.png" alt=""></p>
+
+<p>vglrun has a lot of tunable parameters. Make sure to check out the manual <a href="http://www.virtualgl.org/vgldoc/2_1/">here</a></p>
+
+<h2>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h2>
+
+<p>This is glxspheres64 running on an Amazon GPU EC2 notice the 750+ frames a second.
+<img src="http://yantis-scripts.s3.amazonaws.com/screenshot_20150413-074859.jpg" alt=""></p>
+
+<p>You should be able to run it with many programs. As an example to use it with <a href="http://www.blender.org/">Blender</a></p>
+
+<div class="highlight highlight-bash"><pre>vglconnect -Y docker@hostname -p 49154
+sudo pacman -Sy blender
+vglrun blender -noaudio -nojoystick</pre></div>
+
+<p><img src="http://yantis-scripts.s3.amazonaws.com/blender_4_13_2015.png" alt=""></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/yantis/docker-virtualgl">Docker-virtualgl</a> is maintained by <a href="https://github.com/yantis">yantis</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-61848149-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
+

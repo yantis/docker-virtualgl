@@ -52,11 +52,11 @@ This follows these docker conventions:
 * `--privileged` run in privileged mode 
     If you do not want to run in privliged mode you can mess around with these:
     AWS
-     ** --device=/dev/nvidia0:/dev/nvidia0 \
-     ** --device=/dev/nvidiactl:/dev/nvidiactl \
-     ** --device=/dev/nvidia-uvm:/dev/nvidia-uvm \
+     * --device=/dev/nvidia0:/dev/nvidia0 \
+     * --device=/dev/nvidiactl:/dev/nvidiactl \
+     * --device=/dev/nvidia-uvm:/dev/nvidia-uvm \
     OR (Local)
-     ** --device=/dev/dri/card0:/dev/dri/card0 \
+     * --device=/dev/dri/card0:/dev/dri/card0 \
 * `-d` run in daemon mode
 * `-h docker` sets the hostname to docker. (not really required but it is nice to see where you are.)
 * `-v $HOME/.ssh/authorized_keys:/authorized_keys:ro` Optionaly share your public keys with the host.

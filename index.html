@@ -44,6 +44,9 @@ then connect to your docker container and run glxspheres64 doing all the renderi
 that launches a shell for another machine (ie: on your local network. To use that video card instead of your own 
 for whatever application you are using).</p>
 
+<p>Of course you can use this in local mode as well. If find that stuff just works better on my machine running it through vglrun
+than without it.</p>
+
 <h3>
 <a id="docker-images-structure" class="anchor" href="#docker-images-structure" aria-hidden="true"><span class="octicon octicon-link"></span></a>Docker Images Structure</h3>
 
@@ -72,7 +75,60 @@ for whatever application you are using).</p>
 </blockquote>
 
 <h2>
-<a id="usage-server" class="anchor" href="#usage-server" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage (Server)</h2>
+<a id="usage-local" class="anchor" href="#usage-local" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage (Local)</h2>
+
+<p>This example launches the container and initalizes the graphcs with your drivers and in this case
+runs glxspheres64.</p>
+
+<div class="highlight highlight-bash"><pre>xhost +si:localuser:<span class="pl-s"><span class="pl-pds">$(</span>whoami<span class="pl-pds">)</span></span> <span class="pl-k">&gt;</span>/dev/null
+docker run \
+    --privileged \
+    --rm \
+    -ti \
+    -e DISPLAY \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+    -u docker \
+    yantis/virtualgl /bin/bash -c <span class="pl-s"><span class="pl-pds">"</span>sudo initalize-graphics &gt;/dev/null 2&gt;/dev/null; vglrun glxspheres64;<span class="pl-pds">"</span></span></pre></div>
+
+<h3>
+<a id="breakdown" class="anchor" href="#breakdown" aria-hidden="true"><span class="octicon octicon-link"></span></a>Breakdown</h3>
+
+<div class="highlight highlight-bash"><pre>$ xhost +si:localuser:yourusername</pre></div>
+
+<p>Allows your local user to access the xsocket. Change yourusername or use $(whoami) or $USER if your shell supports it.</p>
+
+<div class="highlight highlight-bash"><pre>docker run \
+    --privileged \
+    --rm \
+    -ti \
+    -e DISPLAY \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+    -u docker \
+    yantis/virtualgl /bin/bash -c <span class="pl-s"><span class="pl-pds">"</span>sudo initalize-graphics &gt;/dev/null 2&gt;/dev/null; vglrun glxspheres64;<span class="pl-pds">"</span></span></pre></div>
+
+<p>This follows these docker conventions:</p>
+
+<ul>
+<li>
+<code>-ti</code> will run an interactive session that can be terminated with CTRL+C.</li>
+<li>
+<code>--rm</code> will run a temporary session that will make sure to remove the container on exit.</li>
+<li>
+<code>-e DISPLAY</code> sets the host display to the local machines display.</li>
+<li>
+<code>-v /tmp/.X11-unix:/tmp/.X11-unix:ro</code> bind mounts the X11 socks on your local machine to the containers and makes it read only.</li>
+<li>
+<code>-u docker</code> sets the user to docker. (or you could do root as well)</li>
+<li>
+<code>yantis/virtualgl /bin/bash -c "sudo initalize-graphics &gt;/dev/null 2&gt;/dev/null; vglrun glxspheres64;"</code>
+you need to initalize the graphics or otherwise it won't adapt to your graphics drivers and may not work.</li>
+</ul>
+
+<h2>
+<a id="usage-remote" class="anchor" href="#usage-remote" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage (Remote)</h2>
+
+<h3>
+<a id="server" class="anchor" href="#server" aria-hidden="true"><span class="octicon octicon-link"></span></a>Server</h3>
 
 <p>The recommended way to run this container looks like this. This example launches the container in the background.
 Warning: Do not run this on your primary computer as it will take over your video cards and you will have to shutdown the container
@@ -119,8 +175,8 @@ Amazon EC2 instance. WARNING: If you don't use this then it will just default to
 <code>yantis/virtualgl</code> the default mode is SSH server with the X-Server so no need to run any commands.</li>
 </ul>
 
-<h2>
-<a id="usage-client" class="anchor" href="#usage-client" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage (Client)</h2>
+<h3>
+<a id="client" class="anchor" href="#client" aria-hidden="true"><span class="octicon octicon-link"></span></a>Client</h3>
 
 <p>You will probably want to have VirtualGL installed on your client. On Arch Linux it is:</p>
 

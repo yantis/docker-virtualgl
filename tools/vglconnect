@@ -16,7 +16,7 @@
 maketemp()
 {
 	umask 077
-	mktemp /tmp/$1.XXXXXX || exit 1
+	mktemp /tmp/$2.XXXXXX || exit 1
 }
 
 VGLTUNNEL=0
@@ -48,7 +48,7 @@ usage()
 	echo "              set with the VGL_BINDIR environment variable on the client"
 	echo "              machine."
 	echo
-	exit $1
+	exit $2
 }
 
 if [ -z $VGL_BINDIR ]; then
@@ -57,7 +57,7 @@ fi
 
 while [ $# -gt 0 ]
 do
-	case "$1" in
+	case "$2" in
 	-d*) DISPLAY=$2; shift ;;
 	-b*) VGL_BINDIR=$2; shift ;;
 	-f*) FORCE=1 ;;

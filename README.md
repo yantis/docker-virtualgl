@@ -27,18 +27,18 @@ than without it. If you
 
 
 ### Docker Images Structure
-
 >[yantis/archlinux-tiny](https://github.com/yantis/docker-archlinux-tiny)
 >>[yantis/archlinux-small](https://github.com/yantis/docker-archlinux-small)
 >>>[yantis/archlinux-small-ssh-hpn](https://github.com/yantis/docker-archlinux-ssh-hpn)
 >>>>[yantis/ssh-hpn-x](https://github.com/yantis/docker-ssh-hpn-x)
 >>>>>[yantis/dynamic-video](https://github.com/yantis/docker-dynamic-video)
 >>>>>>[yantis/virtualgl](https://github.com/yantis/docker-virtualgl)
+>>>>>>>[yantis/wine](https://github.com/yantis/docker-wine)
 
 
 ## Usage (Local)
 
-This example launches the container and initalizes the graphcs with your drivers and in this case
+This example launches the container and initializes the graphcs with your drivers and in this case
 runs glxspheres64.
 
 ```bash
@@ -50,7 +50,7 @@ docker run \
     -e DISPLAY \
     -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
     -u docker \
-    yantis/virtualgl /bin/bash -c "sudo initalize-graphics >/dev/null 2>/dev/null; vglrun glxspheres64;"
+    yantis/virtualgl /bin/bash -c "sudo initialize-graphics >/dev/null 2>/dev/null; vglrun glxspheres64;"
 ```
 
 ### Breakdown
@@ -69,7 +69,7 @@ docker run \
     -e DISPLAY \
     -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
     -u docker \
-    yantis/virtualgl /bin/bash -c "sudo initalize-graphics >/dev/null 2>/dev/null; vglrun glxspheres64;"
+    yantis/virtualgl /bin/bash -c "sudo initialize-graphics >/dev/null 2>/dev/null; vglrun glxspheres64;"
 ```
 
 This follows these docker conventions:
@@ -79,8 +79,8 @@ This follows these docker conventions:
 * `-e DISPLAY` sets the host display to the local machines display.
 * `-v /tmp/.X11-unix:/tmp/.X11-unix:ro` bind mounts the X11 socks on your local machine to the containers and makes it read only.
 * `-u docker` sets the user to docker. (or you could do root as well)
-* `yantis/virtualgl /bin/bash -c "sudo initalize-graphics >/dev/null 2>/dev/null; vglrun glxspheres64;"`
-you need to initalize the graphics or otherwise it won't adapt to your graphics drivers and may not work.
+* `yantis/virtualgl /bin/bash -c "sudo initialize-graphics >/dev/null 2>/dev/null; vglrun glxspheres64;"`
+you need to initialize the graphics or otherwise it won't adapt to your graphics drivers and may not work.
 
 
 ## Usage (Remote)

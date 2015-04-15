@@ -41,7 +41,7 @@ IMAGEID=ami-71be9041
 # breaks the script on the various ssh commands.
 # set -e
 
-# Exit the script on any uninitalized variables.
+# Exit the script on any uninitialized variables.
 set -u
 
 # Create our new instance

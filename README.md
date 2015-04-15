@@ -20,8 +20,8 @@ then connect to your docker container and run glxspheres64 doing all the renderi
 that launches a shell for another machine (ie: on your local network. To use that video card instead of your own 
 for whatever application you are using).
 
-Of course you can use this in local mode as well. If find that stuff just works better on my machine running it through vglrun
-than without it.
+Of course you can use this in local mode as well. I find that stuff just works better on my machine running it through vglrun
+than without it. If you 
 
 
 ### Docker Images Structure

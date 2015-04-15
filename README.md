@@ -13,6 +13,8 @@ on Github [docker-virtualgl](https://github.com/yantis/docker-virtualgl/)
 The goal of this was a layer between [dynamic-video](https://github.com/yantis/docker-dynamic-video) and graphical applications.
 I tested this with Blender, Path of Exile on PlayOnLinux and a few other games and even Steam all on an Amazon EC2.
 
+In local mode it should just work. All you should have to do is run [this](https://github.com/yantis/docker-virtualgl/blob/master/runme-local.sh) script
+
 I have included a [demo script](https://github.com/yantis/docker-virtualgl/blob/master/tools/aws-virtualgl.sh) that will startup an Amazon EC2 Instance, install docker, run the container and 
 then connect to your docker container and run glxspheres64 doing all the rendering on the AWS GPU and outputing it on your local display.
 

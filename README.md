@@ -20,16 +20,70 @@ then connect to your docker container and run glxspheres64 doing all the renderi
 that launches a shell for another machine (ie: on your local network. To use that video card instead of your own 
 for whatever application you are using).
 
+Of course you can use this in local mode as well. If find that stuff just works better on my machine running it through vglrun
+than without it.
+
+
 ### Docker Images Structure
 
- > [yantis/archlinux-tiny](https://github.com/yantis/docker-archlinux-tiny)
+ >[yantis/archlinux-tiny](https://github.com/yantis/docker-archlinux-tiny)
  >>[yantis/archlinux-small](https://github.com/yantis/docker-archlinux-small)
  >>>[yantis/archlinux-small-ssh-hpn](https://github.com/yantis/docker-archlinux-ssh-hpn)
  >>>>[yantis/ssh-hpn-x](https://github.com/yantis/docker-ssh-hpn-x)
  >>>>>[yantis/dynamic-video](https://github.com/yantis/docker-dynamic-video)
  >>>>>>[yantis/virtualgl](https://github.com/yantis/docker-virtualgl)
 
-## Usage (Server)
+
+## Usage (Local)
+
+ This example launches the container and initalizes the graphcs with your drivers and in this case
+ runs glxspheres64.
+
+ ```bash
+ xhost +si:localuser:$(whoami) >/dev/null
+ docker run \
+     --privileged \
+     --rm \
+     -ti \
+     -e DISPLAY \
+     -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+     -u docker \
+     yantis/virtualgl /bin/bash -c "sudo initalize-graphics >/dev/null 2>/dev/null; vglrun glxspheres64;"
+     ```
+
+### Breakdown
+
+```bash
+$ xhost +si:localuser:yourusername
+```
+
+Allows your local user to access the xsocket. Change yourusername or use $(whoami) or $USER if your shell supports it.
+
+```bash
+docker run \
+    --privileged \
+    --rm \
+    -ti \
+    -e DISPLAY \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+    -u docker \
+    yantis/virtualgl /bin/bash -c "sudo initalize-graphics >/dev/null 2>/dev/null; vglrun glxspheres64;"
+```
+
+This follows these docker conventions:
+
+* `-ti` will run an interactive session that can be terminated with CTRL+C.
+* `--rm` will run a temporary session that will make sure to remove the container on exit.
+* `-e DISPLAY` sets the host display to the local machines display.
+* `-v /tmp/.X11-unix:/tmp/.X11-unix:ro` bind mounts the X11 socks on your local machine to the containers and makes it read only.
+* `-u docker` sets the user to docker. (or you could do root as well)
+* `yantis/virtualgl /bin/bash -c "sudo initalize-graphics >/dev/null 2>/dev/null; vglrun glxspheres64;"`
+you need to initalize the graphics or otherwise it won't adapt to your graphics drivers and may not work.
+
+
+## Usage (Remote)
+
+### Server
 
 The recommended way to run this container looks like this. This example launches the container in the background.
 Warning: Do not run this on your primary computer as it will take over your video cards and you will have to shutdown the container
@@ -69,7 +123,7 @@ This follows these docker conventions:
 * `yantis/virtualgl` the default mode is SSH server with the X-Server so no need to run any commands.
 
 
-## Usage (Client)
+### Client
 
 You will probably want to have VirtualGL installed on your client. On Arch Linux it is:
 

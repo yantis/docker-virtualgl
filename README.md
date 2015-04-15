@@ -26,30 +26,30 @@ than without it.
 
 ### Docker Images Structure
 
- >[yantis/archlinux-tiny](https://github.com/yantis/docker-archlinux-tiny)
- >>[yantis/archlinux-small](https://github.com/yantis/docker-archlinux-small)
- >>>[yantis/archlinux-small-ssh-hpn](https://github.com/yantis/docker-archlinux-ssh-hpn)
- >>>>[yantis/ssh-hpn-x](https://github.com/yantis/docker-ssh-hpn-x)
- >>>>>[yantis/dynamic-video](https://github.com/yantis/docker-dynamic-video)
- >>>>>>[yantis/virtualgl](https://github.com/yantis/docker-virtualgl)
+>[yantis/archlinux-tiny](https://github.com/yantis/docker-archlinux-tiny)
+>>[yantis/archlinux-small](https://github.com/yantis/docker-archlinux-small)
+>>>[yantis/archlinux-small-ssh-hpn](https://github.com/yantis/docker-archlinux-ssh-hpn)
+>>>>[yantis/ssh-hpn-x](https://github.com/yantis/docker-ssh-hpn-x)
+>>>>>[yantis/dynamic-video](https://github.com/yantis/docker-dynamic-video)
+>>>>>>[yantis/virtualgl](https://github.com/yantis/docker-virtualgl)
 
 
 ## Usage (Local)
 
- This example launches the container and initalizes the graphcs with your drivers and in this case
- runs glxspheres64.
+This example launches the container and initalizes the graphcs with your drivers and in this case
+runs glxspheres64.
 
- ```bash
- xhost +si:localuser:$(whoami) >/dev/null
- docker run \
-     --privileged \
-     --rm \
-     -ti \
-     -e DISPLAY \
-     -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
-     -u docker \
-     yantis/virtualgl /bin/bash -c "sudo initalize-graphics >/dev/null 2>/dev/null; vglrun glxspheres64;"
-     ```
+```bash
+xhost +si:localuser:$(whoami) >/dev/null
+docker run \
+    --privileged \
+    --rm \
+    -ti \
+    -e DISPLAY \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+    -u docker \
+    yantis/virtualgl /bin/bash -c "sudo initalize-graphics >/dev/null 2>/dev/null; vglrun glxspheres64;"
+```
 
 ### Breakdown
 

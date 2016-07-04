@@ -35,7 +35,8 @@ SUBNETID=subnet-d260adb7 # VPC Subnet ID
 
 # USER DEFINABLE (OPTIONAL)
 REGION=us-west-2
-IMAGEID=ami-71be9041
+# IMAGEID=ami-71be9041
+IMAGEID=ami-11718071
 
 # Exit the script if any statements returns a non true (0) value.
 # breaks the script on the various ssh commands.
@@ -79,6 +80,7 @@ ssh -o ConnectionAttempts=255 \
     root@$IP -tt << EOF
     pacman -Syu --noconfirm
     pacman -S --noconfirm btrfs-progs arch-install-scripts
+    pacman -S --noconfirm extra/nvidia extra/nvidia-utils extra/nvidia-libgl xf86-input-evdev
     mkfs.btrfs -L docker /dev/xvdb -f
     pacman -S docker --noconfirm
     mkdir /mnt/docker

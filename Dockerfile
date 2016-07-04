@@ -13,8 +13,8 @@
 FROM yantis/dynamic-video
 MAINTAINER Jonathan Yantis <yantis@yantis.net>
 
-    # Update and force a refresh of all package lists even if they appear up to date.
-RUN pacman -Syyu --noconfirm && \
+# Don't update
+RUN pacman -Syy --noconfirm && \
 
     # Install remaining packages
     pacman --noconfirm -S \
@@ -30,7 +30,7 @@ RUN pacman -Syyu --noconfirm && \
     ln -s /usr/bin /opt/VirtualGL && \
 
     # Force VirtualGL to be preloaded into setuid/setgid executables (do not do if security is an issue)
-    chmod u+s /usr/lib/librrfaker.so && chmod u+s /usr/lib64/librrfaker.so && \
+    # chmod u+s /usr/lib/librrfaker.so && chmod u+s /usr/lib64/librrfaker.so && \
 
     ##########################################################################
     # CLEAN UP SECTION - THIS GOES AT THE END                                #
